@@ -1,2 +1,5 @@
 # Ignore config file
 .config
+
+# Ignore __pycache__ dir
+__pycache__/
