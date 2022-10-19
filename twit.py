@@ -26,11 +26,15 @@ compute_time = 0
 '''
 Utility Functions
 '''
-# Convert seconds to (mins,seconds)
-def get_time(seconds):
-    if seconds > 60:
-        return (round(seconds/60),seconds%60)
-    return (0,seconds)
+# Convert seconds to (hours,mins,seconds)
+def get_hrs_mins(seconds):
+    hrs = round(seconds / 3600)
+    mins = 0
+    seconds = seconds % 3600
+    if seconds >= 60:
+        mins = int(seconds / 60)
+        seconds = seconds % 60
+    return (hrs,mins,seconds)
 
 # Function used to create and start a Twitter stream
 def stream(analyzer, query):
