@@ -8,6 +8,7 @@ class TwitAnalyzer:
     def __init__(self):
         self.config = None
         self.api = self.init_twitter()
+        self.trend_locations = self.get_trend_locations()
 
     # Calculate sample size to ensure accuracy
     def sample_size(self, pop, z, err,):
@@ -36,6 +37,18 @@ class TwitAnalyzer:
             trend_locations[trend['name']] = {'woeid': trend['woeid'], 'parent': trend['parentid']}
 
         return trend_locations
+
+    # Get trends from given location
+    def get_trends(self, woeid):
+        trend_info = []
+        trends = self.api.get_place_trends(woeid)[0]
+        trend_date = trends['created_at']
+        for trend in trends['trends']:
+            if trend['tweet_volume']:
+                trend_info.append(trend)
+
+        return sorted(trend_info, key=lambda trend: trend['tweet_volume'])
+
 
     # Check if tweet is a retweet
     def is_retweet(self, tweet):
