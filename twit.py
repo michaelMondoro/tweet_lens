@@ -39,10 +39,10 @@ def get_hrs_mins(seconds):
 # Function used to create and start a Twitter stream
 def stream(analyzer, query):
     stream = TwitStream(analyzer.config['CONSUMER_KEY'],analyzer.config['CONSUMER_SECRET'],analyzer.config['ACCESS_TOKEN'],analyzer.config['ACCESS_TOKEN_SECRET'])
-    print(f"FILTERING: {query}")
     stream.filter(track=[query])
 
 
 if __name__ == "__main__":
     a = TwitAnalyzer()
-    results = a.get_topic_data('black lives matter')
+    stream(a,"python")
+    # results = a.get_topic_data('black lives matter')
