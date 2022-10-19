@@ -1,2 +1,18 @@
 # tweet_lens
+[![Generic badge](https://img.shields.io/badge/Licence-MIT-blue.svg)](https://shields.io/)
+[![Generic badge](https://img.shields.io/badge/Maintained-yes-green.svg)](https://shields.io/)
+[![Generic badge](https://img.shields.io/badge/Python-3.10.6-yellow.svg)](https://shields.io/)
+
 Project for extrapolating the sentiment, impressions and impact of different topics trending on Twitter
+
+## Functionality
+Currently live twitter data based on a search term can be streamed and output to the console.
+
+TODO:
+  - [ ] Implement backend to store tweet data
+  - [ ] Automated scraping of tweets for bulk/historical analysis
+  - [ ] Incorporation of live data with data from bulk analysis
+  - [ ] Results dashboard
+  - [ ] Analysis of twitter topic/trend in relation to an individual user
+  
+  
