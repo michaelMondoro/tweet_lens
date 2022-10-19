@@ -16,28 +16,24 @@ class TwitStream(tweepy.Stream):
 
         # Print location if there
         if tweet.author.location:
-            print(f"[{colored(tweet.author.location,'magenta')}] ---")
+            print(f"[{colored(tweet.author.location,'magenta')}] --- [{colored(url,'red')}]")
         else:
-            print(f"[{colored('***','magenta')}] ---")
+            print(f"[{colored('***','magenta')}] --- [{colored(url,'red')}]")
 
 
         # Print tweet contents
-        print(f"[{colored(url,'red')}]")
         print(text)
 
         # Print quote if there
         if hasattr(tweet, 'quoted_status'):
-            print(f"{colored(tweet.quoted_status.author.name,'yellow')}\n[{colored(quote_url,'red')}]\n{colored(quoted_text,'blue')}")
+            print(f"\n=====\n{colored(tweet.quoted_status.author.name,'yellow')} - [{colored(quote_url,'red')}]\n{colored(quoted_text,'blue')}\n=====")
 
         print("---\n\n")
 
 
     # Get the url associated with the given tweet
-    def get_url(self, status):
-        if len(status.entities['urls']) > 0:
-            return status.entities['urls'][0]['url']
-        else:
-            return ""
+    def get_url(self, tweet):
+        return f"https://twitter.com/twitter/statuses/{tweet.id}"
 
     # Get text associated with the given tweet
     def get_text(self, status):
@@ -51,8 +47,6 @@ class TwitStream(tweepy.Stream):
 
 
     def on_status(self, status):
-        if exit:
-            return False
         retweet_text = ""
         retweet_url = ""
         quoted_text = ""
