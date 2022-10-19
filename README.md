@@ -7,7 +7,16 @@ Project for extrapolating the sentiment, impressions and impact of different top
 
 ## Functionality
 Currently live twitter data based on a search term can be streamed and output to the console.
+```python
+from TwitAnalyzer import TwitAnalyzer
+from TwitStream import TwitStream
 
+# Make sure to have your keys/tokens defined in your '.config' file. See example file for details
+a = TwitAnalyzer()
+stream = TwitStream(a.config['CONSUMER_KEY'],a.config['CONSUMER_SECRET'],a.config['ACCESS_TOKEN'],a.config['ACCESS_TOKEN_SECRET'])
+stream.filter(track=["your search to track"])
+
+```
 TODO:
   - [ ] Implement backend to store tweet data
   - [ ] Automated scraping of tweets for bulk/historical analysis
