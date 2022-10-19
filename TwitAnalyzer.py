@@ -1,5 +1,7 @@
 import tweepy
 import yaml
+from requests.utils import unquote
+
 
 '''
 # Class for processing and analyzing Tweets
@@ -47,7 +49,7 @@ class TwitAnalyzer:
             if trend['tweet_volume']:
                 trend_info.append(trend)
 
-        return sorted(trend_info, key=lambda trend: trend['tweet_volume'])
+        return sorted(trend_info, key=lambda trend: trend['tweet_volume'], reverse=True)
 
 
     # Check if tweet is a retweet
