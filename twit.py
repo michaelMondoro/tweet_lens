@@ -25,10 +25,6 @@ File for testing Twitter analysis tools
 # Time Formatting
 #tweet.created_at.astimezone().strftime('%m/%d/%Y - %I:%M %p')
 
-total_tweets = 0
-compute_time = 0 
-
-
 '''
 Utility Functions
 '''
