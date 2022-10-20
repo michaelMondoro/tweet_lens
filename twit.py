@@ -40,8 +40,8 @@ def get_hrs_mins(seconds):
     return (hrs,mins,seconds)
 
 # Function used to create and start a Twitter stream
-def stream(analyzer, query, debug):
-    stream = TwitStream(analyzer.config['CONSUMER_KEY'],analyzer.config['CONSUMER_SECRET'],analyzer.config['ACCESS_TOKEN'],analyzer.config['ACCESS_TOKEN_SECRET'], debug=debug, daemon=True)
+def stream(analyzer, query, live):
+    stream = TwitStream(analyzer.config['CONSUMER_KEY'],analyzer.config['CONSUMER_SECRET'],analyzer.config['ACCESS_TOKEN'],analyzer.config['ACCESS_TOKEN_SECRET'], live=live, daemon=True)
     thread = stream.filter(track=[query], stall_warnings=True, threaded=True)
     return stream, thread
 
@@ -53,7 +53,7 @@ def progress(text, secs):
         sleep(.25)
     spin.finish()
 
-def trend_stats(location, num_trends, debug):
+def trend_stats(location, num_trends, live):
     trends = a.get_trends(a.trend_locations[location]["woeid"])
     data={}
 
@@ -62,8 +62,8 @@ def trend_stats(location, num_trends, debug):
 
     print(f"Gathering data on top {num_trends} trends in {location}. . .")
     for trend in trends[:num_trends]:
-        streem, thread = stream(a, trend['name'], debug)
-        if not debug:
+        streem, thread = stream(a, trend['name'], live)
+        if not live:
             progress(f"Streaming [ {colored(trend['name'],'magenta')} ] - Volume: {trend['tweet_volume']:,} ", 30)
         else:
             print(f"Streaming [ {trend['name']} ] - Volume: {trend['tweet_volume']:,}")

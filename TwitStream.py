@@ -7,11 +7,11 @@ from termcolor import cprint, colored
 '''
 class TwitStream(tweepy.Stream):
 
-    def __init__(self, consumer_key, consumer_secret, acces_token, access_token_secret, debug=True, daemon=False):
+    def __init__(self, consumer_key, consumer_secret, acces_token, access_token_secret, live=True, daemon=False):
         super().__init__(consumer_key, consumer_secret, acces_token, access_token_secret)
         self.num_tweets = 0
         self.num_retweets = 0
-        self.debug = debug
+        self.live = live
 
     def print_tweet(self, tweet, text, quoted_text, url, quote_url):
         # Print header for tweet or retweet
@@ -77,7 +77,7 @@ class TwitStream(tweepy.Stream):
         if hasattr(status, 'retweeted_status'):
             retweet_url = self.get_url(status.retweeted_status)
             retweet_text = self.get_text(status.retweeted_status)
-
+            self.num_retweets += 1
         # Get text from quoted tweet
         if hasattr(status, 'quoted_status'):
             quote_url = self.get_url(status.quoted_status)
@@ -87,10 +87,9 @@ class TwitStream(tweepy.Stream):
         url = self.get_url(status)
         text = self.get_text(status)
 
-        if self.debug:
+        if self.live:
             if hasattr(status, 'retweeted_status'):
                 self.print_tweet(status, retweet_text, quoted_text, retweet_url, quote_url)
-                self.num_retweets += 1
             else:
                 self.print_tweet(status, text, quoted_text, url, quote_url)
 
