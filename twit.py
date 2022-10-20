@@ -80,17 +80,18 @@ def trend_stats(location, num_trends, live):
         data[trend['name']] = {'tweets':streem.num_tweets*2,'retweets':streem.num_retweets*2}
 
 
-    print("RESULTS")
+
+    print("\n\nRESULTS")
     print("=======")
     for trend in data:
         perc_retweet = 0
         if data[trend]['tweets'] > 0:
             perc_retweet = round((data[trend]['retweets'])/(data[trend]['tweets'])*100,2)
-        print(f"{trend}: {data[trend]['tweets']:,} tweets/min - {perc_retweet}% retweets\n")
+        print(f"{colored(trend,'magenta')}: {data[trend]['tweets']:,} {colored('tweets/min','red')} - {perc_retweet}% {colored('retweets','red')}")
 
 
 if __name__ == "__main__":
     a = TwitAnalyzer()
 
-    trend_stats("United States", 10, False)
+    trend_stats("Ukraine", 10, False)
     
