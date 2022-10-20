@@ -46,7 +46,7 @@ class TwitAnalyzer:
         trends = self.api.get_place_trends(woeid)[0]
         trend_date = trends['created_at']
         for trend in trends['trends']:
-            if trend['tweet_volume']:
+            if trend['tweet_volume'] and trend not in trend_info:
                 trend_info.append(trend)
 
         return sorted(trend_info, key=lambda trend: trend['tweet_volume'], reverse=True)
@@ -100,3 +100,4 @@ class TwitAnalyzer:
             max_id = results.max_id-1
 
         return data
+
