@@ -17,6 +17,12 @@ stream = TwitStream(a.config['CONSUMER_KEY'],a.config['CONSUMER_SECRET'],a.confi
 stream.filter(track=["your search to track"])
 
 ```
+
+---
+[ Example Run of `twit.py` ]
+
+![tweets](https://user-images.githubusercontent.com/38412172/197051608-fdd59210-5ca2-44b9-8621-dfea4e689c3f.png)
+
 TODO:
   - [ ] Implement backend to store tweet data
   - [ ] Automated scraping of tweets for bulk/historical analysis
