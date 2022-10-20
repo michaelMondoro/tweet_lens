@@ -4,10 +4,11 @@ from termcolor import cprint, colored
 
 '''
 # Custom stream class for streaming live tweet data
+# 
+# live=True -> streamed tweets will be printed to the console
 '''
 class TwitStream(tweepy.Stream):
-
-    def __init__(self, consumer_key, consumer_secret, acces_token, access_token_secret, live=True, daemon=False):
+    def __init__(self, consumer_key, consumer_secret, acces_token, access_token_secret, live=True):
         super().__init__(consumer_key, consumer_secret, acces_token, access_token_secret)
         self.num_tweets = 0
         self.num_retweets = 0

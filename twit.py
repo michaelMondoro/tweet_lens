@@ -44,7 +44,7 @@ def get_hrs_mins(seconds):
 
 # Function used to create and start a Twitter stream
 def stream(analyzer, query, live):
-    stream = TwitStream(analyzer.config['CONSUMER_KEY'],analyzer.config['CONSUMER_SECRET'],analyzer.config['ACCESS_TOKEN'],analyzer.config['ACCESS_TOKEN_SECRET'], live=live, daemon=True)
+    stream = TwitStream(analyzer.config['CONSUMER_KEY'],analyzer.config['CONSUMER_SECRET'],analyzer.config['ACCESS_TOKEN'],analyzer.config['ACCESS_TOKEN_SECRET'], live=live)
     thread = stream.filter(track=[query], stall_warnings=True, threaded=True)
     return stream, thread
 
@@ -65,6 +65,7 @@ def trend_stats(location, num_trends, live):
 
     print(f"Gathering data on top {num_trends} trends in {location}. . .")
     for trend in trends[:num_trends]:
+        # Start stream and print status
         streem, thread = stream(a, trend['name'], live)
         if not live:
             progress(f"Streaming [ {colored(trend['name'],'magenta')} ] - Volume: {trend['tweet_volume']:,} ", 30)
@@ -72,10 +73,9 @@ def trend_stats(location, num_trends, live):
             print(f"Streaming [ {trend['name']} ] - Volume: {trend['tweet_volume']:,}")
             sleep(30)
 
-
+        # Disconnect stream and wait for thread to finish
         streem.disconnect()
-        while thread.is_alive():
-            sleep(2)
+        thread.join()
         
         data[trend['name']] = {'tweets':streem.num_tweets*2,'retweets':streem.num_retweets*2}
 
