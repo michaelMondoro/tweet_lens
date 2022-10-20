@@ -7,6 +7,9 @@ from TwitAnalyzer import TwitAnalyzer
 from progress.bar import IncrementalBar
 from progress.spinner import *
 
+'''
+File for testing Twitter analysis tools
+'''
 # ------
 # NOTES
 # ------
@@ -85,7 +88,6 @@ def trend_stats(location, num_trends, live):
             perc_retweet = round((data[trend]['retweets'])/(data[trend]['tweets'])*100,2)
         print(f"{trend}: {data[trend]['tweets']:,} tweets/min - {perc_retweet}% retweets\n")
 
-    print(f"No data collected on the following trends: {omitted}")
 
 if __name__ == "__main__":
     a = TwitAnalyzer()
