@@ -63,7 +63,7 @@ def trend_stats(location, num_trends, live):
     if num_trends == 'all':
         num_trends = len(trends)
 
-    print(f"Gathering data on top {num_trends} trends in {location}. . .")
+    print(f"Gathering data on top {num_trends} trends from [ {location} ]")
     for trend in trends[:num_trends]:
         # Start stream and print status
         streem, thread = stream(a, trend['name'], live)
@@ -93,5 +93,5 @@ def trend_stats(location, num_trends, live):
 if __name__ == "__main__":
     a = TwitAnalyzer()
 
-    trend_stats("Ukraine", 10, False)
+    trend_stats("Worldwide", 10, False)
     
