@@ -36,7 +36,9 @@ class TwitAnalyzer:
         trends = self.api.available_trends()
 
         for trend in trends:
-            trend_locations[trend['name']] = {'woeid': trend['woeid'], 'parent': trend['parentid']}
+            trend_locations[trend['name']] = {  'woeid': trend['woeid'], 
+                                                'parent': trend['parentid'],
+                                                'url' : trend['url']}
 
         return trend_locations
 
