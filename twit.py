@@ -44,7 +44,7 @@ def get_hrs_mins(seconds):
 
 # Function used to create and start a Twitter stream
 def stream(analyzer, query, live):
-    stream = TwitStream(analyzer.config['CONSUMER_KEY'],analyzer.config['CONSUMER_SECRET'],analyzer.config['ACCESS_TOKEN'],analyzer.config['ACCESS_TOKEN_SECRET'], livestream=live, daemon=True)
+    stream = TwitStream(analyzer.config['CONSUMER_KEY'],analyzer.config['CONSUMER_SECRET'],analyzer.config['ACCESS_TOKEN'],analyzer.config['ACCESS_TOKEN_SECRET'], live=live, daemon=True)
     thread = stream.filter(track=[query], stall_warnings=True, threaded=True)
     return stream, thread
 
@@ -92,5 +92,5 @@ def trend_stats(location, num_trends, live):
 if __name__ == "__main__":
     a = TwitAnalyzer()
 
-    trend_stats("United States", 5, False)
+    trend_stats("United States", 10, False)
     
