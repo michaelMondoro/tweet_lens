@@ -7,11 +7,11 @@ from termcolor import cprint, colored
 '''
 class TwitStream(tweepy.Stream):
 
-    def __init__(self, consumer_key, consumer_secret, acces_token, access_token_secret, daemon=False):
+    def __init__(self, consumer_key, consumer_secret, acces_token, access_token_secret, debug=True, daemon=False):
         super().__init__(consumer_key, consumer_secret, acces_token, access_token_secret)
         self.num_tweets = 0
         self.num_retweets = 0
-
+        self.debug = debug
 
     def print_tweet(self, tweet, text, quoted_text, url, quote_url):
         # Print header for tweet or retweet
@@ -50,13 +50,23 @@ class TwitStream(tweepy.Stream):
             return status.text
 
     def on_error(self, status_code):
-        print(status_code)
+        print(f"ERROR: {status_code}")
 
+    def on_warning(self, warning):
+        print(warning)
+
+    def on_connection_error(self):
+        print("CONNECTION ERROR")
+
+    def on_exception(self, exception):
+        print(exception)
 
     def on_limit(self, track):
-        print("[ ===== LIMIT HIT ===== ]")
         print(track)
-        print("")
+
+    def status_withheld(self, notice):
+        print(notice)
+
     def on_status(self, status):
         retweet_text = ""
         retweet_url = ""
@@ -77,10 +87,11 @@ class TwitStream(tweepy.Stream):
         url = self.get_url(status)
         text = self.get_text(status)
 
-        if hasattr(status, 'retweeted_status'):
-            self.print_tweet(status, retweet_text, quoted_text, retweet_url, quote_url)
-            self.num_retweets += 1
-        else:
-            self.print_tweet(status, text, quoted_text, url, quote_url)
+        if self.debug:
+            if hasattr(status, 'retweeted_status'):
+                self.print_tweet(status, retweet_text, quoted_text, retweet_url, quote_url)
+                self.num_retweets += 1
+            else:
+                self.print_tweet(status, text, quoted_text, url, quote_url)
 
         self.num_tweets += 1
