@@ -47,6 +47,7 @@ def stream(analyzer, query):
 def trend_stats(location, num_trends):
     trends = a.get_trends(a.trend_locations[location]["woeid"])
     data={}
+    omitted=[]
 
     if num_trends == 'all':
         num_trends = len(trends)
@@ -61,7 +62,10 @@ def trend_stats(location, num_trends):
         streem.disconnect()
         while thread.is_alive():
             sleep(2)
-        data[trend['name']] = {'tweets':streem.num_tweets*2,'retweets':streem.num_retweets*2}
+        if streem.num_tweets == 0:
+            omitted.append(trend['name'])
+        else:
+            data[trend['name']] = {'tweets':streem.num_tweets*2,'retweets':streem.num_retweets*2}
 
 
     print("RESULTS")
@@ -70,8 +74,9 @@ def trend_stats(location, num_trends):
         perc_retweet = 0
         if data[trend]['tweets'] > 0:
             perc_retweet = round((data[trend]['retweets'])/(data[trend]['tweets'])*100,2)
-        print(f"{trend}: {data[trend]['tweets']:,} tweets/min - {perc_retweet}% retweets")
+        print(f"{trend}: {data[trend]['tweets']:,} tweets/min - {perc_retweet}% retweets\n")
 
+    print(f"No data collected on the following trends: {omitted}")
 
 if __name__ == "__main__":
     a = TwitAnalyzer()
