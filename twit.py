@@ -1,5 +1,6 @@
 import tweepy
 import yaml
+from time import sleep
 from termcolor import cprint, colored
 from TwitStream import TwitStream
 from TwitAnalyzer import TwitAnalyzer
@@ -38,11 +39,42 @@ def get_hrs_mins(seconds):
 
 # Function used to create and start a Twitter stream
 def stream(analyzer, query):
-    stream = TwitStream(analyzer.config['CONSUMER_KEY'],analyzer.config['CONSUMER_SECRET'],analyzer.config['ACCESS_TOKEN'],analyzer.config['ACCESS_TOKEN_SECRET'])
-    stream.filter(track=[query])
+    stream = TwitStream(analyzer.config['CONSUMER_KEY'],analyzer.config['CONSUMER_SECRET'],analyzer.config['ACCESS_TOKEN'],analyzer.config['ACCESS_TOKEN_SECRET'], query, daemon=True)
+    thread = stream.filter(track=[query], stall_warnings=True, threaded=True)
+    return stream, thread
+
+
+def trend_stats(location, num_trends):
+    trends = a.get_trends(a.trend_locations[location]["woeid"])
+    data={}
+
+    if num_trends == 'all':
+        num_trends = len(trends)
+
+    print(f"Gathering data on top {num_trends} trends in {location}. . .")
+    
+
+    for trend in trends[:num_trends]:
+        print(f"Streaming [ {trend['name']} ] - Volume: {trend['tweet_volume']:,}")
+        streem, thread = stream(a, trend['query'])
+        sleep(30)
+        streem.disconnect()
+        while thread.is_alive():
+            sleep(2)
+        data[trend['name']] = {'tweets':streem.num_tweets*2,'retweets':streem.num_retweets*2}
+
+
+    print("RESULTS")
+    print("=======")
+    for trend in data:
+        perc_retweet = 0
+        if data[trend]['tweets'] > 0:
+            perc_retweet = round((data[trend]['retweets'])/(data[trend]['tweets'])*100,2)
+        print(f"{trend}: {data[trend]['tweets']:,} tweets/min - {perc_retweet}% retweets")
 
 
 if __name__ == "__main__":
     a = TwitAnalyzer()
-    stream(a,"python")
-    # results = a.get_topic_data('black lives matter')
+
+    trend_stats("United States", 'all')
+    
