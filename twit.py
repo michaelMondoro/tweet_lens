@@ -71,8 +71,8 @@ def trend_stats(location, num_trends, live):
         else:
             print(f" {i+1}/{num_trends} [ {trend['name']} ] - Volume: {trend['tweet_volume']:,}")
             sleep(30)
-        total_tweets += stream.num_tweets
-        total_retweets += stream.num_retweets
+        total_tweets += streem.num_tweets
+        total_retweets += streem.num_retweets
 
         # Disconnect stream and wait for thread to finish
         streem.disconnect()
