@@ -58,6 +58,7 @@ def trend_stats(location, num_trends, live):
     data={}
     total_tweets = 0
     total_retweets = 0
+    total_volume = 0
 
     if num_trends == 'all':
         num_trends = len(trends)
@@ -71,8 +72,10 @@ def trend_stats(location, num_trends, live):
         else:
             print(f" {i+1}/{num_trends} [ {trend['name']} ] - Volume: {trend['tweet_volume']:,}")
             sleep(30)
+        
         total_tweets += streem.num_tweets
         total_retweets += streem.num_retweets
+        total_volume += trend['tweet_volume']
 
         # Disconnect stream and wait for thread to finish
         streem.disconnect()
@@ -82,14 +85,17 @@ def trend_stats(location, num_trends, live):
 
 
 
-    print(f"\nProcessed {total_tweets} tweets [ {total_tweets-total_retweets} regular ] [ {total_retweets} retweets ]")
-    print("=======")
+    # Print output data
+    print("\n\n")
     for trend in data:
         perc_retweet = 0
         if data[trend]['tweets'] > 0:
-            perc_retweet = round((data[trend]['retweets'])/(data[trend]['tweets'])*100,2)
+            perc_retweet = round((data[trend]['retweets']/data[trend]['tweets'])*100,2)
         print(f"{colored(trend,'magenta')}: {data[trend]['tweets']:,} {colored('tweets/min','red')} - {perc_retweet}% {colored('retweets','red')}")
 
+    print(f"\nProcessed: {total_tweets} tweets ({round((total_tweets/total_volume)*100,4)}% of total volume) - [ {total_tweets-total_retweets} regular ] [ {total_retweets} retweets ]")
+    print(f"avg tweets/min: {round(total_tweets/(num_trends/2),2)} | {round((total_retweets/total_tweets)*100,2)}% retweets")
+    print("=======")
 
 if __name__ == "__main__":
     a = TwitAnalyzer()
