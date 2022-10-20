@@ -4,6 +4,8 @@ from time import sleep
 from termcolor import cprint, colored
 from TwitStream import TwitStream
 from TwitAnalyzer import TwitAnalyzer
+from progress.bar import IncrementalBar
+from progress.spinner import *
 
 # ------
 # NOTES
@@ -38,34 +40,41 @@ def get_hrs_mins(seconds):
     return (hrs,mins,seconds)
 
 # Function used to create and start a Twitter stream
-def stream(analyzer, query):
-    stream = TwitStream(analyzer.config['CONSUMER_KEY'],analyzer.config['CONSUMER_SECRET'],analyzer.config['ACCESS_TOKEN'],analyzer.config['ACCESS_TOKEN_SECRET'], daemon=True)
+def stream(analyzer, query, debug):
+    stream = TwitStream(analyzer.config['CONSUMER_KEY'],analyzer.config['CONSUMER_SECRET'],analyzer.config['ACCESS_TOKEN'],analyzer.config['ACCESS_TOKEN_SECRET'], debug=debug, daemon=True)
     thread = stream.filter(track=[query], stall_warnings=True, threaded=True)
     return stream, thread
 
+# Display progress spinner for certain amount of seconds
+def progress(text, secs):
+    spin = PixelSpinner(text)
+    for i in range(secs*4):
+        spin.next()
+        sleep(.25)
+    spin.finish()
 
-def trend_stats(location, num_trends):
+def trend_stats(location, num_trends, debug):
     trends = a.get_trends(a.trend_locations[location]["woeid"])
     data={}
-    omitted=[]
 
     if num_trends == 'all':
         num_trends = len(trends)
 
     print(f"Gathering data on top {num_trends} trends in {location}. . .")
-    
-
     for trend in trends[:num_trends]:
-        print(f"Streaming [ {trend['name']} ] - Volume: {trend['tweet_volume']:,}")
-        streem, thread = stream(a, trend['query'])
-        sleep(30)
+        streem, thread = stream(a, trend['name'], debug)
+        if not debug:
+            progress(f"Streaming [ {colored(trend['name'],'magenta')} ] - Volume: {trend['tweet_volume']:,} ", 30)
+        else:
+            print(f"Streaming [ {trend['name']} ] - Volume: {trend['tweet_volume']:,}")
+            sleep(30)
+
+
         streem.disconnect()
         while thread.is_alive():
             sleep(2)
-        if streem.num_tweets == 0:
-            omitted.append(trend['name'])
-        else:
-            data[trend['name']] = {'tweets':streem.num_tweets*2,'retweets':streem.num_retweets*2}
+        
+        data[trend['name']] = {'tweets':streem.num_tweets*2,'retweets':streem.num_retweets*2}
 
 
     print("RESULTS")
@@ -81,5 +90,5 @@ def trend_stats(location, num_trends):
 if __name__ == "__main__":
     a = TwitAnalyzer()
 
-    trend_stats("United States", 5)
+    trend_stats("United States", 5, False)
     
