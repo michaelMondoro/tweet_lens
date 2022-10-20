@@ -6,6 +6,14 @@ from termcolor import cprint, colored
 # Custom stream class for streaming live tweet data
 '''
 class TwitStream(tweepy.Stream):
+
+    def __init__(self, consumer_key, consumer_secret, acces_token, access_token_secret, topic, daemon=False):
+        super().__init__(consumer_key, consumer_secret, acces_token, access_token_secret)
+        self.topic = topic
+        self.num_tweets = 0
+        self.num_retweets = 0
+
+
     def print_tweet(self, tweet, text, quoted_text, url, quote_url):
         # Print header for tweet or retweet
         if hasattr(tweet, 'retweeted_status'):
@@ -46,6 +54,10 @@ class TwitStream(tweepy.Stream):
         print(status_code)
 
 
+    def on_limit(self, track):
+        print("[ ===== LIMIT HIT ===== ]")
+        print(track)
+        print("")
     def on_status(self, status):
         retweet_text = ""
         retweet_url = ""
@@ -68,5 +80,8 @@ class TwitStream(tweepy.Stream):
 
         if hasattr(status, 'retweeted_status'):
             self.print_tweet(status, retweet_text, quoted_text, retweet_url, quote_url)
+            self.num_retweets += 1
         else:
             self.print_tweet(status, text, quoted_text, url, quote_url)
+
+        self.num_tweets += 1
