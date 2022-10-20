@@ -25,6 +25,7 @@ File for testing Twitter analysis tools
 # Time Formatting
 #tweet.created_at.astimezone().strftime('%m/%d/%Y - %I:%M %p')
 
+
 '''
 Utility Functions
 '''
@@ -55,19 +56,23 @@ def progress(text, secs):
 def trend_stats(location, num_trends, live):
     trends = a.get_trends(a.trend_locations[location]["woeid"])
     data={}
+    total_tweets = 0
+    total_retweets = 0
 
     if num_trends == 'all':
         num_trends = len(trends)
 
     print(f"Gathering data on top {num_trends} trends from [ {location} ]")
-    for trend in trends[:num_trends]:
+    for i, trend in enumerate(trends[:num_trends]):
         # Start stream and print status
         streem, thread = stream(a, trend['name'], live)
         if not live:
-            progress(f"Streaming [ {colored(trend['name'],'magenta')} ] - Volume: {trend['tweet_volume']:,} ", 30)
+            progress(f" {i+1}/{num_trends} [ {colored(trend['name'],'magenta')} ] - Volume: {trend['tweet_volume']:,} ", 30)
         else:
-            print(f"Streaming [ {trend['name']} ] - Volume: {trend['tweet_volume']:,}")
+            print(f" {i+1}/{num_trends} [ {trend['name']} ] - Volume: {trend['tweet_volume']:,}")
             sleep(30)
+        total_tweets += stream.num_tweets
+        total_retweets += stream.num_retweets
 
         # Disconnect stream and wait for thread to finish
         streem.disconnect()
@@ -77,7 +82,7 @@ def trend_stats(location, num_trends, live):
 
 
 
-    print("\n\nRESULTS")
+    print(f"\nProcessed {total_tweets} tweets [ {total_tweets-total_retweets} regular ] [ {total_retweets} retweets ]")
     print("=======")
     for trend in data:
         perc_retweet = 0
@@ -89,5 +94,5 @@ def trend_stats(location, num_trends, live):
 if __name__ == "__main__":
     a = TwitAnalyzer()
 
-    trend_stats("Worldwide", 10, False)
+    trend_stats("Denver", 5, False)
     
