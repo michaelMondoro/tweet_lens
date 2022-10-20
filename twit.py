@@ -41,7 +41,7 @@ def get_hrs_mins(seconds):
 
 # Function used to create and start a Twitter stream
 def stream(analyzer, query, live):
-    stream = TwitStream(analyzer.config['CONSUMER_KEY'],analyzer.config['CONSUMER_SECRET'],analyzer.config['ACCESS_TOKEN'],analyzer.config['ACCESS_TOKEN_SECRET'], live=live, daemon=True)
+    stream = TwitStream(analyzer.config['CONSUMER_KEY'],analyzer.config['CONSUMER_SECRET'],analyzer.config['ACCESS_TOKEN'],analyzer.config['ACCESS_TOKEN_SECRET'], livestream=live, daemon=True)
     thread = stream.filter(track=[query], stall_warnings=True, threaded=True)
     return stream, thread
 

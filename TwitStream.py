@@ -7,7 +7,7 @@ from termcolor import cprint, colored
 '''
 class TwitStream(tweepy.Stream):
 
-    def __init__(self, consumer_key, consumer_secret, acces_token, access_token_secret, live=True, daemon=False):
+    def __init__(self, consumer_key, consumer_secret, acces_token, access_token_secret, livestream=True, daemon=False):
         super().__init__(consumer_key, consumer_secret, acces_token, access_token_secret)
         self.num_tweets = 0
         self.num_retweets = 0
@@ -48,6 +48,7 @@ class TwitStream(tweepy.Stream):
             return status.extended_tweet['full_text']
         else:
             return status.text
+
 
     def on_error(self, status_code):
         print(f"ERROR: {status_code}")
