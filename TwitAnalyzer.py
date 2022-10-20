@@ -13,7 +13,9 @@ class TwitAnalyzer:
         self.trend_locations = self.get_trend_locations()
 
     # Calculate sample size to ensure accuracy
-    def sample_size(self, pop, z, err,):
+    # default margin of error = 3%
+    # default confidence interval 95% (1.96)
+    def sample_size(self, pop, z=1.96, err=.03):
         numerator = (z**2 * .25) / err**2
         denominator = 1 + (z**2 * .25) / (err**2 * pop)
         return round(numerator/denominator,2)
