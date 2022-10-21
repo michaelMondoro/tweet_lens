@@ -22,6 +22,10 @@ class TwitStream(tweepy.Stream):
     def get_perc_unique_retweets(self):
         return round((self.get_unique_retweets()/self.retweets)*100,2)
 
+    def get_unique_retweets(self):
+        return len(self.unique_retweets)
+
+    
     def print_tweet(self, tweet, text, quoted_text, url, quote_url):
         # Print header for tweet or retweet
         if hasattr(tweet, 'retweeted_status'):
@@ -45,10 +49,6 @@ class TwitStream(tweepy.Stream):
             print(f"\n=====\n{colored(tweet.quoted_status.author.name,'yellow')} - [{colored(quote_url,'red')}]\n{colored(quoted_text,'blue')}\n=====")
 
         print("---\n\n")
-
-
-    def get_unique_retweets(self):
-        return len(self.unique_retweets)
 
     # Get the url associated with the given tweet
     def get_url(self, tweet):
