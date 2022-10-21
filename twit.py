@@ -39,7 +39,7 @@ def get_hrs_mins(seconds):
         seconds = seconds % 60
     return (hrs,mins,seconds)
 
-# Function used to create and start a Twitter stream
+# Create and start a Twitter stream
 def stream(analyzer, query, live):
     stream = TwitStream(analyzer.config['CONSUMER_KEY'],analyzer.config['CONSUMER_SECRET'],analyzer.config['ACCESS_TOKEN'],analyzer.config['ACCESS_TOKEN_SECRET'], live=live)
     thread = stream.filter(track=[query], stall_warnings=True, threaded=True)
@@ -79,15 +79,15 @@ def trend_stats(location, num_trends, live):
         streem.disconnect()
         thread.join()
 
-        total_tweets += streem.num_tweets
-        total_retweets += streem.num_retweets
+        total_tweets += streem.tweets
+        total_retweets += streem.retweets
         total_unique_retweets += streem.get_unique_retweets()
         total_volume += trend['tweet_volume']
         
-        data[trend['name']] = { 'tweets':streem.num_tweets,
-                                'retweets':streem.num_retweets, 
+        data[trend['name']] = { 'tweets':streem.tweets ,
+                                'retweets':streem.retweets, 
                                 'unique_retweets':streem.get_unique_retweets(),
-                                'tw_p_min': streem.num_tweets*2}
+                                'tw_p_min': streem.tweets*2}
 
 
     # Create results table
@@ -112,5 +112,5 @@ def trend_stats(location, num_trends, live):
 if __name__ == "__main__":
     a = TwitAnalyzer()
 
-    trend_stats("Ukraine", 3, True)
+    trend_stats("Ukraine", 3, False)
     
