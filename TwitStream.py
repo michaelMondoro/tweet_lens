@@ -94,6 +94,8 @@ class TwitStream(tweepy.Stream):
                 self.unique_retweets.append(status.retweeted_status.id)
 
             self.retweets += 1
+        else:
+            self.reg_tweets += 1
         # Get text from quoted tweet
         if hasattr(status, 'quoted_status'):
             quote_url = self.get_url(status.quoted_status)
