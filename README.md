@@ -21,7 +21,7 @@ stream.filter(track=["your search to track"])
 ---
 [ Example Run of `twit.py` ]
 
-![tweets](https://user-images.githubusercontent.com/38412172/197244851-9ce9f890-1d9f-4da7-9123-a58193d612cf.png)
+![tweets](https://user-images.githubusercontent.com/38412172/197245058-916f99d9-5c0d-437d-80e3-158a8e3af039.png)
 
 
 TODO:
