@@ -20,12 +20,14 @@ class TwitStream(tweepy.Stream):
         return round((self.retweets/self.tweets)*100,2)
 
     def get_perc_unique_retweets(self):
+        if self.retweets == 0:
+            return 0
         return round((self.get_unique_retweets()/self.retweets)*100,2)
 
     def get_unique_retweets(self):
         return len(self.unique_retweets)
 
-    
+
     def print_tweet(self, tweet, text, quoted_text, url, quote_url):
         # Print header for tweet or retweet
         if hasattr(tweet, 'retweeted_status'):
@@ -62,23 +64,8 @@ class TwitStream(tweepy.Stream):
             return status.text
 
 
-    def on_error(self, status_code):
-        print(f"ERROR: {status_code}")
-
-    def on_warning(self, warning):
-        print(warning)
-
-    def on_connection_error(self):
-        print("CONNECTION ERROR")
-
-    def on_exception(self, exception):
-        print(exception)
-
-    def on_limit(self, track):
-        print(track)
-
-    def status_withheld(self, notice):
-        print(notice)
+    def on_closed(self, response):
+        pass
 
     def on_status(self, status):
         retweet_text = ""
