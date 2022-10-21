@@ -102,13 +102,15 @@ def trend_stats(location, num_trends, live):
         table.add_row([trend, data[trend]['tweets'], data[trend]['retweets'], data[trend]['unique_retweets'], data[trend]['tw_p_min'], perc_retweet, round((data[trend]['unique_retweets']/data[trend]['retweets'])*100,2)])
     table.add_row(['Summary', total_tweets, total_retweets, total_unique_retweets, round(total_tweets/(num_trends/2)), round((total_retweets/total_tweets)*100,2), round((total_unique_retweets/total_retweets)* 100,2)])    
 
+    print("\n")
+    print(f"Summary of top {num_trends} trends from [ {colored(location,'magenta')} ]")
     print(table)
     print(f"\nProcessed {round((total_tweets/total_volume)*100,4)}% of total volume")
     print(f"[{total_tweets-total_retweets} regular ] [ {total_retweets} retweets ] [ {total_unique_retweets} unique retweets ]")
-    print("\n\n")
+    print("\n")
 
 if __name__ == "__main__":
     a = TwitAnalyzer()
 
-    trend_stats("United States", 3, False)
+    trend_stats("Ukraine", 3, True)
     
