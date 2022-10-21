@@ -21,7 +21,8 @@ stream.filter(track=["your search to track"])
 ---
 [ Example Run of `twit.py` ]
 
-![tweets](https://user-images.githubusercontent.com/38412172/197051608-fdd59210-5ca2-44b9-8621-dfea4e689c3f.png)
+![tweets](https://user-images.githubusercontent.com/38412172/197245058-916f99d9-5c0d-437d-80e3-158a8e3af039.png)
+
 
 TODO:
   - [ ] Implement backend to store tweet data
