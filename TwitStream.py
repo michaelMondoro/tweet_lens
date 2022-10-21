@@ -10,10 +10,17 @@ from termcolor import cprint, colored
 class TwitStream(tweepy.Stream):
     def __init__(self, consumer_key, consumer_secret, acces_token, access_token_secret, live=True):
         super().__init__(consumer_key, consumer_secret, acces_token, access_token_secret)
-        self.num_tweets = 0
-        self.num_retweets = 0
+        self.tweets = 0
+        self.reg_tweets = 0
+        self.retweets = 0
         self.is_live = live
         self.unique_retweets = []
+
+    def get_perc_retweets(self):
+        return round((self.retweets/self.tweets)*100,2)
+
+    def get_perc_unique_retweets(self):
+        return round((self.get_unique_retweets()/self.retweets)*100,2)
 
     def print_tweet(self, tweet, text, quoted_text, url, quote_url):
         # Print header for tweet or retweet
@@ -86,7 +93,7 @@ class TwitStream(tweepy.Stream):
             if status.retweeted_status.id not in self.unique_retweets:
                 self.unique_retweets.append(status.retweeted_status.id)
 
-            self.num_retweets += 1
+            self.retweets += 1
         # Get text from quoted tweet
         if hasattr(status, 'quoted_status'):
             quote_url = self.get_url(status.quoted_status)
@@ -102,4 +109,4 @@ class TwitStream(tweepy.Stream):
             else:
                 self.print_tweet(status, text, quoted_text, url, quote_url)
 
-        self.num_tweets += 1
+        self.tweets += 1
