@@ -13,6 +13,7 @@ class TwitStream(tweepy.Stream):
         self.num_tweets = 0
         self.num_retweets = 0
         self.is_live = live
+        self.unique_retweets = []
 
     def print_tweet(self, tweet, text, quoted_text, url, quote_url):
         # Print header for tweet or retweet
@@ -38,6 +39,9 @@ class TwitStream(tweepy.Stream):
 
         print("---\n\n")
 
+
+    def get_unique_retweets(self):
+        return len(self.unique_retweets)
 
     # Get the url associated with the given tweet
     def get_url(self, tweet):
@@ -79,6 +83,9 @@ class TwitStream(tweepy.Stream):
         if hasattr(status, 'retweeted_status'):
             retweet_url = self.get_url(status.retweeted_status)
             retweet_text = self.get_text(status.retweeted_status)
+            if status.retweeted_status.id not in self.unique_retweets:
+                self.unique_retweets.append(status.retweeted_status.id)
+
             self.num_retweets += 1
         # Get text from quoted tweet
         if hasattr(status, 'quoted_status'):

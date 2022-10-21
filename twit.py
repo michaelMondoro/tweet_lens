@@ -4,8 +4,8 @@ from time import sleep
 from termcolor import cprint, colored
 from TwitStream import TwitStream
 from TwitAnalyzer import TwitAnalyzer
-from progress.bar import IncrementalBar
 from progress.spinner import *
+from prettytable import *
 
 '''
 File for testing Twitter analysis tools
@@ -58,6 +58,7 @@ def trend_stats(location, num_trends, live):
     data={}
     total_tweets = 0
     total_retweets = 0
+    total_unique_retweets = 0
     total_volume = 0
 
     if num_trends == 'all':
@@ -73,32 +74,41 @@ def trend_stats(location, num_trends, live):
             print(f" {i+1}/{num_trends} [ {trend['name']} ] - Volume: {trend['tweet_volume']:,}")
             sleep(30)
         
-        total_tweets += streem.num_tweets
-        total_retweets += streem.num_retweets
-        total_volume += trend['tweet_volume']
 
         # Disconnect stream and wait for thread to finish
         streem.disconnect()
         thread.join()
+
+        total_tweets += streem.num_tweets
+        total_retweets += streem.num_retweets
+        total_unique_retweets += streem.get_unique_retweets()
+        total_volume += trend['tweet_volume']
         
-        data[trend['name']] = {'tweets':streem.num_tweets*2,'retweets':streem.num_retweets*2}
+        data[trend['name']] = { 'tweets':streem.num_tweets,
+                                'retweets':streem.num_retweets, 
+                                'unique_retweets':streem.get_unique_retweets(),
+                                'tw_p_min': streem.num_tweets*2}
 
 
+    # Create results table
+    table = PrettyTable(['Trend', 'Tweets', 'Retweets', 'Unique Retweets', 'twt/min', '% Retweets', '% Unique Retweets'])
+    table.set_style(SINGLE_BORDER)
+    table.align = 'l'
 
-    # Print output data
-    print("\n\n")
     for trend in data:
         perc_retweet = 0
         if data[trend]['tweets'] > 0:
             perc_retweet = round((data[trend]['retweets']/data[trend]['tweets'])*100,2)
-        print(f"{colored(trend,'magenta')}: {data[trend]['tweets']:,} {colored('tweets/min','red')} - {perc_retweet}% {colored('retweets','red')}")
+        table.add_row([trend, data[trend]['tweets'], data[trend]['retweets'], data[trend]['unique_retweets'], data[trend]['tw_p_min'], perc_retweet, round((data[trend]['unique_retweets']/data[trend]['retweets'])*100,2)])
+    table.add_row(['Summary', total_tweets, total_retweets, total_unique_retweets, round(total_tweets/(num_trends/2)), round((total_retweets/total_tweets)*100,2), round((total_unique_retweets/total_retweets)* 100,2)])    
 
-    print(f"\nProcessed: {total_tweets} tweets ({round((total_tweets/total_volume)*100,4)}% of total volume) - [ {total_tweets-total_retweets} regular ] [ {total_retweets} retweets ]")
-    print(f"avg tweets/min: {round(total_tweets/(num_trends/2),2)} | {round((total_retweets/total_tweets)*100,2)}% retweets")
-    print("=======")
+    print(table)
+    print(f"\nProcessed {round((total_tweets/total_volume)*100,4)}% of total volume")
+    print(f"[{total_tweets-total_retweets} regular ] [ {total_retweets} retweets ] [ {total_unique_retweets} unique retweets ]")
+    print("\n\n")
 
 if __name__ == "__main__":
     a = TwitAnalyzer()
 
-    trend_stats("Denver", 5, False)
+    trend_stats("United States", 3, False)
     
