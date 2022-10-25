@@ -13,9 +13,10 @@ class Live:
 	    thread = twit_stream.filter(track=[query], stall_warnings=True, threaded=True)
 		return twit_stream, thread
 
+	# Process live twitter trend data
 	def TrendAnalysis(self):
 		pass
 
-
+	# Process live twitter search data
 	def SearchAnalysis(self):
 		pass
