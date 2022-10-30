@@ -1,5 +1,6 @@
 import tweepy
 import yaml
+import redis
 from time import sleep
 from termcolor import cprint, colored
 from TwitStream import TwitStream
@@ -114,5 +115,10 @@ def trend_stats(location, num_trends, live):
 if __name__ == "__main__":
     a = TwitAnalyzer()
 
-    trend_stats("Worldwide", 3, False)
-    
+    trend_stats("United States", 3, True)
+    # Test redis
+    # db = redis.Redis()
+    # tweets = a.api.search_tweets("black lives matter",count=10)
+    # for tweet in tweets:
+    #     db.hset(f"tweet:{tweet.id}","text",tweet.text)
+    #     db.hset(f"tweet:{tweet.id}","likes",tweet.favorite_count)
