@@ -7,8 +7,6 @@ from textblob import TextBlob
 # Class for processing and analyzing Tweets
 '''
 class TwitAnalyzer:
-    db = redis.Redis() 
-    TIMEOUT=3600 # hour timeout
     def __init__(self):
         self.config = None
         self.api = self.init_twitter()
@@ -121,14 +119,3 @@ class TwitAnalyzer:
 
         return data
 
-    # Process bulk twitter data related to specified query
-    def BulkAnalysis(self, query):
-        tweets = a.api.search_tweets(query,count=10)
-        for tweet in tweets:
-
-            # TODO: Sentiment Processing 
-
-            # TODO: Save tweet data to db
-            # db.hset(f"tweet:{tweet.id}","text",tweet.text)
-            # db.hset(f"tweet:{tweet.id}","likes",tweet.favorite_count)
-            # db.expire(tweet.id, TIMEOUT)

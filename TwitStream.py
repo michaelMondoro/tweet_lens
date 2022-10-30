@@ -1,7 +1,6 @@
 import tweepy
 from termcolor import cprint, colored
 
-
 '''
 # Custom stream class for streaming live tweet data
 # 
