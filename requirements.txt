@@ -3,4 +3,6 @@ yaml
 termcolor
 progress
 prettytable
+textblob
+
 
