@@ -1,12 +1,14 @@
 import tweepy
 import yaml
 from requests.utils import unquote
-
+from textblob import TextBlob
 
 '''
 # Class for processing and analyzing Tweets
 '''
 class TwitAnalyzer:
+    db = redis.Redis() 
+    TIMEOUT=3600 # hour timeout
     def __init__(self):
         self.config = None
         self.api = self.init_twitter()
@@ -85,6 +87,21 @@ class TwitAnalyzer:
     def follower_count(self, tweet):
         return tweet.author.followers_count
 
+    # Get the url associated with the given tweet
+    def get_url(self, tweet):
+        return f"https://twitter.com/twitter/statuses/{tweet.id}"
+
+    # Get text associated with the given tweet
+    def get_text(self, status):
+        if hasattr(status, 'extended_tweet'):
+            return status.extended_tweet['full_text']
+        else:
+            return status.text
+
+    # Get sentiment of tweet
+    def get_sentiment(self, tweet):
+        blob = TextBlob(tweet)
+
     # Extract all relevant data from tweets
     def extract_tweet_data(self, tweets):
         pass
@@ -104,3 +121,14 @@ class TwitAnalyzer:
 
         return data
 
+    # Process bulk twitter data related to specified query
+    def BulkAnalysis(self, query):
+        tweets = a.api.search_tweets(query,count=10)
+        for tweet in tweets:
+
+            # TODO: Sentiment Processing 
+
+            # TODO: Save tweet data to db
+            # db.hset(f"tweet:{tweet.id}","text",tweet.text)
+            # db.hset(f"tweet:{tweet.id}","likes",tweet.favorite_count)
+            # db.expire(tweet.id, TIMEOUT)
