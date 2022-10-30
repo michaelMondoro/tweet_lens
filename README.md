@@ -6,7 +6,9 @@
 Project for extrapolating the sentiment, impressions and impact of different topics trending on Twitter
 
 ## Functionality
-Currently live twitter data based on a search term can be streamed and output to the console.
+Project is split into two main modules. The `TwitLive` module is used for streaming/processing live Twitter data. The `TwitProcess` module is used for processing bulk Twitter data.
+
+Example use of `TwitLive`
 ```python
 from TwitLive import TwitLive
 
@@ -15,9 +17,6 @@ live = TwitLive(a)
 live.trend_stats("United States", 3, False)
 
 ```
-
----
-[ Example Run of `twit.py` ]
 
 ![tweets](https://user-images.githubusercontent.com/38412172/197245058-916f99d9-5c0d-437d-80e3-158a8e3af039.png)
 
