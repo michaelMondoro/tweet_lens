@@ -6,20 +6,17 @@
 Project for extrapolating the sentiment, impressions and impact of different topics trending on Twitter
 
 ## Functionality
-Currently live twitter data based on a search term can be streamed and output to the console.
+Project is split into two main modules. The `TwitLive` module is used for streaming/processing live Twitter data. The `TwitProcess` module is used for processing bulk Twitter data.
+
+Example use of `TwitLive`
 ```python
-from TwitAnalyzer import TwitAnalyzer
-from TwitStream import TwitStream
+from TwitLive import TwitLive
 
 # Make sure to have your keys/tokens defined in your '.config' file. See example file for details
-a = TwitAnalyzer()
-stream = TwitStream(a.config['CONSUMER_KEY'],a.config['CONSUMER_SECRET'],a.config['ACCESS_TOKEN'],a.config['ACCESS_TOKEN_SECRET'])
-stream.filter(track=["your search to track"])
+live = TwitLive(a)
+live.trend_stats("United States", 3, False)
 
 ```
-
----
-[ Example Run of `twit.py` ]
 
 ![tweets](https://user-images.githubusercontent.com/38412172/197245058-916f99d9-5c0d-437d-80e3-158a8e3af039.png)
 
