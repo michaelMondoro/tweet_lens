@@ -91,18 +91,19 @@ class TwitAnalyzer:
 
     # Get text associated with the given tweet
     def get_text(self, status):
-        if hasattr(status, 'extended_tweet'):
-            return status.extended_tweet['full_text']
+        if hasattr(status, 'full_text'):
+            return status.full_text
         else:
             return status.text
 
     # Get sentiment of tweet
+    # TODO: update to account for 
     def get_sentiment(self, tweet):
-        blob = TextBlob(tweet)
-
-    # Extract all relevant data from tweets
-    def extract_tweet_data(self, tweets):
-        pass
+        blob = TextBlob(self.get_text(tweet))
+        if blob.polarity > 0:
+            return 'pos'
+        else:
+            return 'neg'
 
 
     def get_topic_data(self, topic):

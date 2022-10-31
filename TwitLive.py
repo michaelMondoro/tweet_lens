@@ -4,6 +4,7 @@ from time import sleep
 from progress.spinner import *
 from prettytable import *
 from termcolor import cprint, colored
+
 '''
 Module for processing live twitter data
 '''
@@ -67,17 +68,18 @@ class TwitLive:
                                     'unique_retweets':streem.get_unique_retweets(),
                                     'perc_retweets':streem.get_perc_retweets(),
                                     'perc_unique_retweets':streem.get_perc_unique_retweets(),
+                                    'sentiment':( round(streem.pos/streem.tweets*100,2), round(streem.neg/streem.tweets*100,2) ),
                                     'tw_p_min': streem.tweets*2}
 
 
         # Create results table
-        table = PrettyTable(['Trend', 'Total Tweets', 'Regular Tweets', 'Retweets', 'Unique Retweets', 'twt/min', '% Retweets', '% Unique Retweets'])
+        table = PrettyTable(['Trend', 'Total Tweets', 'Sentiment % (+/-)', 'Regular Tweets', 'Retweets', 'Unique Retweets', 'twt/min', '% Retweets', '% Unique Retweets'])
         table.set_style(SINGLE_BORDER)
         table.align = 'l'
 
         for trend in data:
-            table.add_row([trend, data[trend]['tweets'], data[trend]['reg_tweets'], data[trend]['retweets'], data[trend]['unique_retweets'], data[trend]['tw_p_min'], data[trend]['perc_retweets'], data[trend]['perc_unique_retweets']])
-        table.add_row(['Summary', total_tweets, total_reg_tweets, total_retweets, total_unique_retweets, round(total_tweets/(num_trends/2)), round((total_retweets/total_tweets)*100,2), round((total_unique_retweets/total_retweets)* 100,2)])    
+            table.add_row([trend, data[trend]['tweets'], data[trend]['sentiment'], data[trend]['reg_tweets'], data[trend]['retweets'], data[trend]['unique_retweets'], data[trend]['tw_p_min'], data[trend]['perc_retweets'], data[trend]['perc_unique_retweets']])
+        table.add_row(['Summary', total_tweets, '', total_reg_tweets, total_retweets, total_unique_retweets, round(total_tweets/(num_trends/2)), round((total_retweets/total_tweets)*100,2), round((total_unique_retweets/total_retweets)* 100,2)])    
 
         print("\n")
         print(f"Summary of top {num_trends} trends from [ {colored(location,'magenta')} ]")

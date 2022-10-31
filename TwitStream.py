@@ -1,5 +1,6 @@
 import tweepy
 from termcolor import cprint, colored
+from textblob import TextBlob
 
 '''
 # Custom stream class for streaming live tweet data
@@ -14,6 +15,8 @@ class TwitStream(tweepy.Stream):
         self.retweets = 0
         self.is_live = live
         self.unique_retweets = []
+        self.pos = 0
+        self.neg = 0
 
     def get_perc_retweets(self):
         return round((self.retweets/self.tweets)*100,2)
@@ -57,11 +60,19 @@ class TwitStream(tweepy.Stream):
 
     # Get text associated with the given tweet
     def get_text(self, status):
-        if hasattr(status, 'extended_tweet'):
-            return status.extended_tweet['full_text']
+        if hasattr(status, 'full_text'):
+            return status.full_text
         else:
             return status.text
 
+    # Get sentiment of tweet
+    # TODO: update to account for 
+    def get_sentiment(self, tweet):
+        blob = TextBlob(self.get_text(tweet))
+        if blob.polarity > 0:
+            self.pos += 1
+        else:
+            self.neg += 1
 
     def on_closed(self, response):
         pass
@@ -71,6 +82,8 @@ class TwitStream(tweepy.Stream):
         retweet_url = ""
         quoted_text = ""
         quote_url = ""
+
+        self.get_sentiment(status)
 
         # Get text from retweet
         if hasattr(status, 'retweeted_status'):
