@@ -3,7 +3,7 @@
 [![Generic badge](https://img.shields.io/badge/Maintained-yes-green.svg)](https://shields.io/)
 [![Generic badge](https://img.shields.io/badge/Python-3.10.6-yellow.svg)](https://shields.io/)
 
-Project for extrapolating the sentiment, impressions and impact of different topics trending on Twitter
+Project for extrapolating the sentiment, impressions and impact of different topics trending on Twitter.
 
 ## Functionality
 Project is split into two main modules. The `TwitLive` module is used for streaming/processing live Twitter data. The `TwitProcess` module is used for processing bulk Twitter data.
@@ -22,10 +22,11 @@ live.trend_stats("United States", 3, False)
 
 
 TODO:
-  - [ ] Implement backend to store tweet data
-  - [ ] Automated scraping of tweets for bulk/historical analysis
-  - [ ] Incorporation of live data with data from bulk analysis
-  - [ ] Results dashboard
+  - [ ] Implement Redis backend to store trend / search data
+  - [ ] Implement bulk analysis processing
+  - [x] Implement live stream functionality
+  - [ ] Results dashboard (design, UI, Flask framework)
   - [ ] Analysis of twitter topic/trend in relation to an individual user
+  - [ ] Implement `Impact` and `Reach` analysis
   
   
