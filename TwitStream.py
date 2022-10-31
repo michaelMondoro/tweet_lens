@@ -66,7 +66,7 @@ class TwitStream(tweepy.Stream):
             return status.text
 
     # Get sentiment of tweet
-    # TODO: update to account for 
+    # TODO: update to account for varying levels of polarity
     def get_sentiment(self, tweet):
         blob = TextBlob(self.get_text(tweet))
         if blob.polarity > 0:
