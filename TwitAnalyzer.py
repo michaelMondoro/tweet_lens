@@ -49,10 +49,11 @@ class TwitAnalyzer:
         trends = self.api.get_place_trends(woeid)[0]
         trend_date = trends['created_at']
         for trend in trends['trends']:
-            if trend['tweet_volume'] and trend not in trend_info:
-                trend_info.append(trend)
+            trend_info.append(trend)
+            # if trend['tweet_volume'] and trend not in trend_info:
+            #     trend_info.append(trend)
 
-        return sorted(trend_info, key=lambda trend: trend['tweet_volume'], reverse=True)
+        return sorted(trend_info, key=lambda trend: trend['tweet_volume'] if trend['tweet_volume'] is not None else -1, reverse=True)
 
 
     # Check if tweet is a retweet
