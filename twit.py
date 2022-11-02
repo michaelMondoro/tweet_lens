@@ -43,7 +43,7 @@ def get_hrs_mins(seconds):
 if __name__ == "__main__":
     a = TwitAnalyzer()
     live = TwitLive(a)
-    live.trend_stats("Worldwide", 5, False)
+    live.TrendAnalysis("Worldwide", 5, False)
     
     # Test redis
     # db = redis.Redis()
