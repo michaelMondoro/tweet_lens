@@ -9,9 +9,9 @@ Every individual user on Twitter has a customized, personal experience and only 
 The scope of the project is limited by a number of different factors which we will attempt to document to allow for transparency. While not necessarily all inclusive, hopefully this can serve as a foundation for Twitter analysis, and a starting point for more targeted projects in the future.
 
 ## Functionality
-Project is split into two main modules. The `TwitLive` module is used for streaming/processing live Twitter data. The `TwitProcess` module is used for processing bulk Twitter data.
+Currently the project is split into two main modules. The `TwitLive` module is used for streaming/processing live Twitter data. The `TwitProcess` module is used for processing bulk Twitter data.
 
-Example use of `TwitLive`
+
 ```python
 from TwitLive import TwitLive
 
