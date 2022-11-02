@@ -14,7 +14,7 @@ from TwitLive import TwitLive
 
 # Make sure to have your keys/tokens defined in your '.config' file. See example file for details
 live = TwitLive(a)
-live.trend_stats("United States", 3, False)
+live.TrendAnalysis("United States", 3, False)
 
 ```
 
