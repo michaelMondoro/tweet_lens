@@ -29,7 +29,12 @@ class TwitLive:
             sleep(.25)
         spin.finish()
 
-    def trend_stats(self, location, num_trends, live):
+    # Process live twitter trend data
+    # 
+    # location (str) - location for which to analyze trends from
+    # num_trends (int) - number of trends to analyze
+    # display (bool) - boolean to indicate whether or not to display live stream output to the console
+    def TrendAnalysis(self, location, num_trends, display):
         trends = self.analyzer.get_trends(self.analyzer.trend_locations[location]["woeid"])
         data={}
         total_tweets = 0
@@ -44,8 +49,8 @@ class TwitLive:
         print(f"Gathering data on top {num_trends} trends from [ {location} ]")
         for i, trend in enumerate(trends[:num_trends]):
             # Start stream and print status
-            streem, thread = self.stream(trend['name'], live)
-            if not live:
+            streem, thread = self.stream(trend['name'], display)
+            if not display:
                 self.progress(f" {i+1}/{num_trends} [ {colored(trend['name'],'magenta')} ] - Volume: {trend['tweet_volume']:,} ", 30)
             else:
                 print(f" {i+1}/{num_trends} [ {trend['name']} ] - Volume: {trend['tweet_volume']:,}")
@@ -89,9 +94,6 @@ class TwitLive:
         print("\n")
 
 
-    # Process live twitter trend data
-    def TrendAnalysis(self):
-        pass
 
     # Process live twitter search data
     def SearchAnalysis(self):
