@@ -98,7 +98,7 @@ class TwitAnalyzer:
             return status.text
 
     # Get sentiment of tweet
-    # TODO: update to account for 
+    # TODO: update to account for sentiment levels? Tuning of the actual sentiment gathered?
     def get_sentiment(self, tweet):
         blob = TextBlob(self.get_text(tweet))
         if blob.polarity > 0:
@@ -106,14 +106,14 @@ class TwitAnalyzer:
         else:
             return 'neg'
 
-
-    def get_topic_data(self, topic):
-        MAX_TWEETS = 300
+    # Scrape tweets related to specified topic 
+    # NOTE: THIS FILTERS RETWEETS
+    def get_topic_data(self, topic, max_tweets):
         results = self.api.search_tweets(q=f"{topic} -filter:retweets", result_type='recent',tweet_mode='extended', count=100)
         data = list(results)
         max_id = results.max_id-1
 
-        while len(data) < MAX_TWEETS:
+        while len(data) < max_tweets:
             print(len(data))
             results = self.api.search_tweets(q=f"{topic} -filter:retweets", result_type='recent',tweet_mode='extended', count=100, max_id=max_id)
             data += list(results)
