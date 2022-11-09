@@ -16,7 +16,7 @@ class TwitProcess:
 
     # Process bulk twitter data related to specified query
     def BulkAnalysis(self, query):
-        tweets = analyzer.api.search_tweets(query,count=10)
+        tweets = analyzer.api.search_tweets(query,count=100)
         for tweet in tweets:
 
             # TODO: Sentiment Processing 
