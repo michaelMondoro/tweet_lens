@@ -25,7 +25,8 @@ live.TrendAnalysis("United States", 3, False)
 
 
 TODO:
-  - [ ] Implement Redis backend to store trend / search data
+  - [ ] Implement topic DB
+  - [x] Create testing Tweet DB
   - [ ] Implement bulk analysis processing
   - [x] Implement live stream functionality
   - [ ] Results dashboard (design, UI, Flask framework)
