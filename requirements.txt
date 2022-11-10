@@ -1,5 +1,5 @@
 tweepy
-yaml
+PyYAML
 termcolor
 progress
 prettytable
