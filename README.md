@@ -7,10 +7,8 @@ This project builds off of the [**TwitAnalysis Project**](https://github.com/mic
 
 
 TODO:
-  - [ ] Implement topic DB
   - [x] Create testing Tweet DB
-  - [ ] Implement bulk analysis processing
-  - [ ] Implement live stream functionality
+  - [ ] Implement topic DB
   - [ ] Results dashboard (design, UI, Flask framework)
   - [ ] Analysis of twitter topic/trend in relation to an individual user
   - [ ] Implement `Impact` and `Reach` analysis
