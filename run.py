@@ -18,4 +18,4 @@ def live_trends():
 
 
 if __name__ == "__main__":
-    app.run(debug=config.DEV)
+    app.run(debug=app.config['DEV'])
