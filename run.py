@@ -8,6 +8,8 @@ app.config['ASSETS_ROOT'] = '/static/assets'
 
 
 @app.route('/index.html')
+@app.route('/index')
+@app.route('/')
 def index():
     """ Main route """
     return render_template('home/index.html', segment='index')
