@@ -17,6 +17,7 @@ TODO:
   
 ### Usage
 ```
+# Project can be run locally with the following
 pip install -r requirements.txt
 python run.py
 ```
