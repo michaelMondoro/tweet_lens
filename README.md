@@ -15,3 +15,8 @@ TODO:
   - [ ] Implement `Impact` and `Reach` analysis
   
   
+### Usage
+```
+pip install -r requirements.txt
+python run.pys
+```
