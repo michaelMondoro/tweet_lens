@@ -20,3 +20,6 @@ TODO:
 pip install -r requirements.txt
 python run.py
 ```
+
+
+![Screen Shot 2023-01-10 at 10 18 49 PM](https://user-images.githubusercontent.com/38412172/211710075-3ca8cc11-30b0-42d7-a2d2-9149c9effb9d.png)
