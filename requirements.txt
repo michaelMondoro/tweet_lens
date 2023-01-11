@@ -5,6 +5,8 @@ progress
 prettytable
 textblob
 TwitAnalysis
+pymongo
+redis
 
 # Datta Able Dashboard Reqs
 flask==2.0.2
