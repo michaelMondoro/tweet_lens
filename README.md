@@ -18,5 +18,5 @@ TODO:
 ### Usage
 ```
 pip install -r requirements.txt
-python run.pys
+python run.py
 ```
